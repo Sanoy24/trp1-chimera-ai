@@ -1,51 +1,120 @@
-## Git MCP (Developer Tooling)
+# Project Chimera — Tooling & MCP Strategy
 
-### Purpose
-Git MCP (GitKraken MCP integration) is used to **standardize version control operations**
-and ensure commit metadata is consistent, traceable, and automation-friendly across
-Project Chimera.
+## Purpose
 
-This tool exists to support:
-- Specification-driven development
-- Traceability between specs, commits, and automation
-- Future CI / agent-assisted workflows
+This document defines the **developer-facing tools (MCP servers)** used to build
+and maintain Project Chimera.
+
+These tools assist human developers and development-time AI agents.
+They are **not** runtime skills available to the Chimera agent.
 
 ---
 
-### When to Use
-Use **Git MCP** when:
-- Changes affect specs, skills, or core architecture
-- Commits must be traceable by automation or agents
-- Work is part of an MCP-managed workflow (CI, bots, audits)
+## Tool Categories
 
-You MAY use regular `git` commands for:
-- Local experiments
-- Temporary or throwaway changes
-- Work not yet aligned with specs
+### Developer Tools (MCP)
 
----
+- Used during development
+- May read/write repository files
+- Must respect project rules and specs
+- Are NOT autonomous unless explicitly enabled
 
-### Common Commands
-- `git mcp add <files>`
-  - Stages files using the MCP-aware wrapper.
-- `git mcp commit -m "message"`
-  - Creates a commit enriched with MCP metadata.
+### Agent Runtime Skills
+
+- Used by Chimera at runtime
+- Defined separately in the `skills/` directory
+- Never allowed to modify source code directly
 
 ---
 
-### Automation & Programmatic Access
-The repository exposes helpers such as:
-- `mcp_gitkraken_git_add_or_commit`
-
-These are intended for:
-- Scripts
-- CI pipelines
-- Agent-driven development workflows
+## Selected MCP Developer Tools
 
 ---
 
-### Policy
-- MCP commits SHOULD reference specs when applicable.
-- MCP tooling MUST NOT bypass the Prime Directive
-  (code must align with `specs/`).
-- Git MCP is a **developer tool**, not an agent runtime capability.
+### 1. Git MCP (Version Control)
+
+**Purpose**
+Provides a standardized interface for version control operations such as
+staging, committing, and reviewing changes, enabling traceability between
+specifications and code.
+
+**Intended Capabilities**
+
+- Stage file changes
+- Create commits with structured metadata
+- Support agent-assisted code review and CI workflows
+
+**Policy**
+
+- Git MCP is required before autonomous agents can commit code.
+- All commits SHOULD reference relevant specs when applicable.
+
+---
+
+### 2. Filesystem MCP (File Access & Editing)
+
+**Status:** Planned / Conceptual
+
+**Purpose**
+Provides controlled, auditable access to the project filesystem for
+development-time agents and tools.
+
+**Intended Capabilities**
+
+- Read files from the repository
+- Write or modify files with explicit intent
+- Enforce read-first access to `specs/`
+
+**Policy**
+
+- Filesystem MCP MUST prevent destructive operations.
+- Direct file writes require explicit developer intent.
+
+---
+
+### 3. PostgreSQL MCP (Local Database Inspection)
+
+**Purpose**
+PostgreSQL MCP provides **read-only, controlled access** to the local PostgreSQL
+database during development and debugging.
+
+Its primary role is to help developers and development-time agents:
+
+- Inspect current database state
+- Verify schema and data assumptions
+- Debug issues related to persistence and queries
+
+This tool is **not** intended for production use or autonomous data mutation.
+
+---
+
+**Intended Capabilities**
+
+- Execute read-only SQL queries (e.g., `SELECT`, `EXPLAIN`)
+- Inspect table schemas and indexes
+- View row counts and sample records
+- Retrieve database metadata (tables, columns, constraints)
+
+---
+
+**Explicit Non-Capabilities**
+
+- No `INSERT`, `UPDATE`, `DELETE`, or `DROP`
+- No schema migrations
+- No production database access
+
+---
+
+**Policy**
+
+- PostgreSQL MCP MUST operate in read-only mode.
+- Access is limited to local development databases.
+- Any future write capability would require explicit human approval.
+- This MCP tool is for **debugging and inspection only**, not runtime agent behavior.
+
+---
+
+**Rationale**
+Database state is often required to validate assumptions during debugging.
+Providing controlled inspection prevents unsafe ad-hoc access while preserving
+traceability and safety.
