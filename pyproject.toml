@@ -15,3 +15,16 @@ trp1-chimera-ai = "trp1_chimera_ai:main"
 [build-system]
 requires = ["uv_build>=0.9.28,<0.10.0"]
 build-backend = "uv_build"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest",
+    "pytest-asyncio",
+    "ruff",
+    "mypy"
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = "test_*.py"
