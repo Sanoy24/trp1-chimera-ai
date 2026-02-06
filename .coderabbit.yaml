@@ -1,0 +1,38 @@
+version: 1
+
+review:
+    auto_review: true
+
+    rules:
+        - name: Spec Alignment
+          description: >
+              Ensure all code changes align with existing specifications.
+              No new behavior should be introduced without a corresponding spec.
+          instructions:
+              - Check if modified code references or impacts files in `specs/`
+              - Flag changes that introduce logic not described in specs
+              - Ask for a spec update if behavior is unclear or undocumented
+
+        - name: Security Review
+          description: >
+              Identify potential security vulnerabilities and unsafe patterns.
+          instructions:
+              - Check for hard-coded secrets or credentials
+              - Flag unsafe file system or network access
+              - Highlight missing input validation
+              - Warn about insecure defaults
+
+        - name: Agent Safety
+          description: >
+              Ensure changes do not grant autonomous agents unsafe capabilities.
+          instructions:
+              - Flag direct system access without MCP mediation
+              - Flag write access where read-only is expected
+              - Ensure runtime agents cannot modify source code
+
+tone:
+    style: professional
+    strictness: high
+
+limits:
+    max_comments: 20
