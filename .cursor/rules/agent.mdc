@@ -1,0 +1,36 @@
+# Cursor Rules — Project Chimera
+
+## Project Context
+
+This is Project Chimera, an autonomous influencer system.
+
+## Prime Directive
+
+NEVER generate code without checking specs/ first.
+
+If specs are missing or unclear:
+
+- Stop
+- Ask for clarification
+- Do not guess
+
+## Mandatory Traceability
+
+Before writing any code:
+
+- Explain your plan
+- Reference relevant specs
+- Confirm assumptions
+
+No explanation = no code.
+
+## Response Format (MANDATORY)
+
+1. Understanding
+2. Plan
+3. Spec References
+4. Code (only if allowed)
+
+## Enforcement Level
+
+CRITICAL — violations invalidate the response.
