@@ -1,23 +1,28 @@
-name: Chimera CI - Build and Test
-
+name: Chimera CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches:
+      - main
+      - develop
   pull_request:
-    branches: [ "main", "master" ]
 
 jobs:
-
-  build-and-test:
-    
+  test:
     runs-on: ubuntu-latest
 
     steps:
-     
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-    
-      - name: Run Docker Build and Test Suite
-        run: sudo make test
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build environment
+        run: make setup
+
+      - name: Run tests in Docker
+        run: make test
+
+      - name: Spec alignment check
+        run: make spec-check
