@@ -11,15 +11,15 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
+# Install uv
 RUN curl -Ls https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.cargo/bin:${PATH}"
 
+ENV PATH="/root/.local/bin:${PATH}"
 
 COPY pyproject.toml uv.lock* ./
-RUN uv sync --frozen || uv sync
 
+RUN uv sync --frozen || uv sync
 
 COPY . .
 
-# Default Command
 CMD ["bash"]
