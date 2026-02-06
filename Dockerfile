@@ -18,7 +18,7 @@ ENV PATH="/root/.local/bin:${PATH}"
 
 COPY pyproject.toml uv.lock* ./
 
-RUN uv sync --frozen || uv sync
+RUN uv sync --no-install-project
 
 COPY . .
 
