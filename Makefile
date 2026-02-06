@@ -12,7 +12,8 @@ test:
 		pytest || true
 
 lint:
-	uv run ruff check .
+	uv run ruff check src/
+	uv run mypy src/
 
 security:
 	uv run bandit -r .
