@@ -21,7 +21,8 @@ dev-dependencies = [
     "pytest",
     "pytest-asyncio",
     "ruff",
-    "mypy"
+    "mypy",
+    "bandit"
 ]
 
 [tool.pytest.ini_options]

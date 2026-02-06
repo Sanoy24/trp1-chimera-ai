@@ -1,6 +1,6 @@
 IMAGE_NAME=chimera-dev
 
-.PHONY: setup test spec-check shell
+.PHONY: setup test spec-check shell lint security
 
 ## Build the Docker image
 setup:
@@ -11,6 +11,11 @@ test:
 	docker run --rm $(IMAGE_NAME) \
 		pytest || true
 
+lint:
+	uv run ruff check .
+
+security:
+	uv run bandit -r .
 
 spec-check:
 	@echo "Running spec compliance check..."
@@ -21,3 +26,7 @@ spec-check:
 
 shell:
 	docker run --rm -it $(IMAGE_NAME) bash
+
+clean:
+	rm -rf .venv
+	find . -name "__pycache__" -delete

@@ -20,6 +20,11 @@ jobs:
 
       - name: Build environment
         run: make setup
+      - name: Run Linting
+        run: make lint
+
+      - name: Run Security Check
+        run: make security
 
       - name: Run tests in Docker
         run: make test
