@@ -22,12 +22,13 @@ This project implements the **FastRender Swarm** pattern detailed in the [SRS Do
 │   ├── technical.md        # API Contracts & DB Schema
 │   └── openclaw_integration.md
 ├── research/               # Architectural Decisions
-│   ├── context/            # Domain Research
+│   ├── architecture_strategy.md
+│   ├── research_notes.md
 │   └── tooling_strategy.md # Dev vs. Runtime Tools
 ├── skills/                 # Agent Capabilities (Python Logic)
 │   ├── trend_fetcher/      # Perception Skill
 │   ├── content_generator/  # Creative Skill
-│   └── transaction_manager/# Economic Skill (Coinbase AgentKit)
+│   └── transaction_manager/ # Economic Skill (Coinbase AgentKit)
 ├── tests/                  # TDD (Failing Tests by Design)
 ├── .cursor/rules           # IDE Agent Context
 ```
