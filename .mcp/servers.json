@@ -1,0 +1,110 @@
+{
+    "version": "1.0",
+    "description": "MCP configuration for Project Chimera",
+    "servers": [
+        {
+            "name": "filesystem-mcp",
+            "status": "planned",
+            "description": "Provides controlled file system read/write access for development and agent workflows.",
+            "transport": {
+                "type": "local",
+                "protocol": "stdio"
+            },
+            "tools": [
+                {
+                    "name": "read_file",
+                    "description": "Read the contents of a file from the repository.",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "path": { "type": "string" }
+                        },
+                        "required": ["path"]
+                    },
+                    "output_schema": {
+                        "type": "object",
+                        "properties": {
+                            "content": { "type": "string" }
+                        }
+                    }
+                },
+                {
+                    "name": "write_file",
+                    "description": "Write content to a file in the repository.",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "path": { "type": "string" },
+                            "content": { "type": "string" }
+                        },
+                        "required": ["path", "content"]
+                    },
+                    "output_schema": {
+                        "type": "object",
+                        "properties": {
+                            "success": { "type": "boolean" }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "git-mcp",
+            "status": "planned",
+            "description": "Git operations exposed via MCP for commit, diff, and history inspection.",
+            "transport": {
+                "type": "local",
+                "protocol": "stdio"
+            },
+            "tools": [
+                {
+                    "name": "git_status",
+                    "description": "Get the current git working tree status.",
+                    "input_schema": { "type": "object", "properties": {} },
+                    "output_schema": {
+                        "type": "object",
+                        "properties": {
+                            "modified": {
+                                "type": "array",
+                                "items": { "type": "string" }
+                            },
+                            "untracked": {
+                                "type": "array",
+                                "items": { "type": "string" }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "postgres-mcp",
+            "status": "planned",
+            "description": "Read-only inspection of local PostgreSQL database for debugging and verification.",
+            "transport": {
+                "type": "tcp",
+                "host": "localhost",
+                "port": 5432
+            },
+            "tools": [
+                {
+                    "name": "query",
+                    "description": "Execute a read-only SQL query.",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "sql": { "type": "string" }
+                        },
+                        "required": ["sql"]
+                    },
+                    "output_schema": {
+                        "type": "object",
+                        "properties": {
+                            "rows": { "type": "array" }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
